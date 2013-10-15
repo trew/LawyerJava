@@ -1,0 +1,10 @@
+bin
+
+# Java class files
+*.class
+
+### eclipse files we DO want
+# local.properties
+# */.loadpath
+# classpath
+.settings
