@@ -7,13 +7,12 @@ import se.samuelandersson.lawyerrace.component.TextureRegion;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
-import com.artemis.utils.ImmutableBag;
+import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class RenderSystem extends EntitySystem {
+public class RenderSystem extends EntityProcessingSystem {
 
 	@Mapper
 	ComponentMapper<Spatial> sm;
@@ -37,21 +36,37 @@ public class RenderSystem extends EntitySystem {
 	}
 
 	@Override
-	protected void processEntities(ImmutableBag<Entity> entities) {
+	protected void begin() {
 		camera.update();
 		batch.begin();
-		for (int i = 0; i < entities.size(); i++) {
-			Entity entity = entities.get(i);
-			
-			Spatial s = sm.get(entity);
-			TextureRegion r = rm.get(entity);
-			Movement m = mm.getSafe(entity);
-			float rotation = 0;
-			if (m != null) {
-				rotation = m.getDirectionMultiplier() * 45;
-			}
-			batch.draw(r.region, s.x, s.y, s.width / 2, s.height / 2, s.width, s.height, 1, 1, rotation);
+	}
+
+	@Override
+	protected void process(Entity entity) {
+		Spatial s = sm.get(entity);
+		TextureRegion r = rm.get(entity);
+		Movement m = mm.getSafe(entity);
+		float rotation = 0;
+		if (m != null) {
+			rotation = getDirectionMultiplier(m) * 45;
 		}
+		batch.draw(r.region, s.x, s.y, s.width / 2, s.height / 2, s.width, s.height, 1, 1, rotation);
+	}
+
+	public int getDirectionMultiplier(Movement m) {
+		if (m.directionX == 1 && m.directionY == 0) return 0;
+		if (m.directionX == 1 && m.directionY == 1) return 1;
+		if (m.directionX == 0 && m.directionY == 1) return 2;
+		if (m.directionX == -1 && m.directionY == 1) return 3;
+		if (m.directionX == -1 && m.directionY == 0) return 4;
+		if (m.directionX == -1 && m.directionY == -1) return 5;
+		if (m.directionX == 0 && m.directionY == -1) return 6;
+		if (m.directionX == 1 && m.directionY == -1) return 7;
+		return 0;
+	}
+
+	@Override
+	protected void end() {
 		batch.end();
 	}
 

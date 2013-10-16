@@ -25,18 +25,6 @@ public class Movement extends Component {
 		return this;
 	}
 	
-	public int getDirectionMultiplier() {
-		if (directionX == 1 && directionY == 0) return 0;
-		if (directionX == 1 && directionY == 1) return 1;
-		if (directionX == 0 && directionY == 1) return 2;
-		if (directionX == -1 && directionY == 1) return 3;
-		if (directionX == -1 && directionY == 0) return 4;
-		if (directionX == -1 && directionY == -1) return 5;
-		if (directionX == 0 && directionY == -1) return 6;
-		if (directionX == 1 && directionY == -1) return 7;
-		return 0;
-	}
-	
 	public Movement velocityX(float velocityX) {
 		this.velocityX = velocityX;
 		return this;
