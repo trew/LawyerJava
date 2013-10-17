@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 
 public class GameScreen implements Screen {
@@ -87,9 +88,11 @@ public class GameScreen implements Screen {
 		
 		for (int i = 0; i < dollars.size; i++) {
 			Dollar dollar = dollars.get(i);
+			if (!dollar.isActive()) continue;
 			if (Intersector.intersects(player, dollar)) {
 				player.setScore(player.getScore() + 1);
-				dollar.remove();
+				dollar.setActive(false);
+				dollar.addAction(Actions.sequence(Actions.scaleTo(1.2f, 1.2f, 0.1f), Actions.scaleTo(0, 0, 0.1f), Actions.removeActor()));
 				dollars.removeIndex(i--);
 			}
 		}
