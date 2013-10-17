@@ -35,7 +35,6 @@ public abstract class Game implements ApplicationListener {
 			Gdx.gl10.glClearColor(0, 0, 0, 0);
 
 			float delta = Gdx.graphics.getRawDeltaTime();
-			GlobalTime.setDelta(delta);
 			if (delta > MAX_FRAMETIME) delta = MAX_FRAMETIME;
 			accumulator += delta;
 			while (accumulator >= TIMESTEP) {

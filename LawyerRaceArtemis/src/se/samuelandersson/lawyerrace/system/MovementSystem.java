@@ -1,6 +1,5 @@
 package se.samuelandersson.lawyerrace.system;
 
-import se.samuelandersson.lawyerrace.GlobalTime;
 import se.samuelandersson.lawyerrace.component.Enemy;
 import se.samuelandersson.lawyerrace.component.Movement;
 import se.samuelandersson.lawyerrace.component.Spatial;
@@ -30,7 +29,7 @@ public class MovementSystem extends EntityProcessingSystem {
 
 	@Override
 	protected void process(Entity e) {
-		float delta = GlobalTime.getDelta();
+		float delta = world.getDelta();
 
 		Spatial spatial = sm.get(e);
 		Movement movement = mm.get(e);

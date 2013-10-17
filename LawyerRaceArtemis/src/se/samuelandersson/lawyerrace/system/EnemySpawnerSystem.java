@@ -19,7 +19,6 @@ public class EnemySpawnerSystem extends VoidEntitySystem {
 	@Override
 	protected void initialize() {
 		enemies = world.getManager(GroupManager.class).getEntities(Group.ENEMY);
-		
 	}
 	
 	@Override
@@ -27,7 +26,7 @@ public class EnemySpawnerSystem extends VoidEntitySystem {
 		int enemiesToCreate = 1 - enemies.size();
 		for (int i = 0; i < enemiesToCreate; i++) {
 			Entity target = world.getManager(TagManager.class).getEntity("PLAYER");
-			EntityFactory.createEnemy(world, target);
+			EntityFactory.createEnemy(world, target).addToWorld();
 		}
 	}
 

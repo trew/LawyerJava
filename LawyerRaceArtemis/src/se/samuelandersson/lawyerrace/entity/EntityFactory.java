@@ -1,5 +1,6 @@
 package se.samuelandersson.lawyerrace.entity;
 
+import se.samuelandersson.lawyerrace.component.Enemy;
 import se.samuelandersson.lawyerrace.component.Movement;
 import se.samuelandersson.lawyerrace.component.Player;
 import se.samuelandersson.lawyerrace.component.Reward;
@@ -53,6 +54,7 @@ public final class EntityFactory {
 		e.addComponent(s);
 		e.addComponent(r);
 		e.addComponent(m);
+		e.addComponent(new Enemy());
 		return e;
 	}
 

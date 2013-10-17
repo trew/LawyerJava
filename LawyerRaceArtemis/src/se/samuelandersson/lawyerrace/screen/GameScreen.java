@@ -4,6 +4,7 @@ import se.samuelandersson.lawyerrace.LawyerRace;
 import se.samuelandersson.lawyerrace.entity.EntityFactory;
 import se.samuelandersson.lawyerrace.system.CollisionSystem;
 import se.samuelandersson.lawyerrace.system.DollarSpawnerSystem;
+import se.samuelandersson.lawyerrace.system.EnemySpawnerSystem;
 import se.samuelandersson.lawyerrace.system.MovementSystem;
 import se.samuelandersson.lawyerrace.system.PlayerInputSystem;
 import se.samuelandersson.lawyerrace.system.EntityRenderSystem;
@@ -41,6 +42,7 @@ public class GameScreen implements Screen {
 		updateSystems.add(world.setSystem(new EnemyMovementSystem(), true));
 		updateSystems.add(world.setSystem(new CollisionSystem(game), true));
 		updateSystems.add(world.setSystem(new DollarSpawnerSystem(), true));
+		updateSystems.add(world.setSystem(new EnemySpawnerSystem(), true));
 		
 		renderSystems.add(world.setSystem(new EntityRenderSystem(), true));
 		renderSystems.add(world.setSystem(new UIRenderSystem(), true));
@@ -52,6 +54,7 @@ public class GameScreen implements Screen {
 	}
 
 	public void update(float delta) {
+		world.setDelta(delta);
 		world.process();
 
 		for (EntitySystem system : updateSystems) {
