@@ -9,6 +9,13 @@ public class Movement extends Component {
 	public int directionX;
 	public int directionY;
 	
+	public Movement() {
+	}
+	
+	public Movement(float velocity) {
+		velocity(velocity);
+	}
+	
 	public Movement velocity(float velocity) {
 		velocityX = velocity;
 		velocityY = velocity;

@@ -4,4 +4,11 @@ import com.artemis.Component;
 
 public class Reward extends Component {
 	public int points;
+
+	public Reward() {
+	}
+
+	public Reward(int points) {
+		this.points = points;
+	}
 }

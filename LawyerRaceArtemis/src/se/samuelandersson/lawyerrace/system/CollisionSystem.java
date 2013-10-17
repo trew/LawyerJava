@@ -4,16 +4,51 @@ import se.samuelandersson.lawyerrace.LawyerRace;
 import se.samuelandersson.lawyerrace.component.Player;
 import se.samuelandersson.lawyerrace.component.Reward;
 import se.samuelandersson.lawyerrace.component.Spatial;
+import se.samuelandersson.lawyerrace.entity.Group;
 import se.samuelandersson.lawyerrace.screen.GameOverScreen;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
+import com.artemis.managers.GroupManager;
+import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.ImmutableBag;
+import com.badlogic.gdx.utils.Array;
 
-public class CollisionSystem extends EntitySystem {
+public class CollisionSystem extends VoidEntitySystem {
+
+	private class CollisionGroup {
+		private ImmutableBag<Entity> groupA;
+		private ImmutableBag<Entity> groupB;
+		private CollisionHandler handler;
+
+		public CollisionGroup(String groupA, String groupB, CollisionHandler handler) {
+			GroupManager gm = world.getManager(GroupManager.class);
+			this.groupA = gm.getEntities(groupA);
+			this.groupB = gm.getEntities(groupB);
+			this.handler = handler;
+		}
+
+		public void checkCollisions() {
+			for (int i = 0; i < groupA.size(); i++) {
+				Entity a = groupA.get(i);
+				Spatial as = sm.getSafe(a);
+				if (as == null) continue;
+
+				for (int j = 0; j < groupB.size(); j++) {
+					Entity b = groupB.get(j);
+					Spatial bs = sm.getSafe(b);
+					if (bs == null) continue;
+
+					if (as.intersects(bs)) handler.handleCollision(a, b);
+				}
+			}
+		}
+	}
+
+	private interface CollisionHandler {
+		void handleCollision(Entity a, Entity b);
+	}
 
 	@Mapper
 	ComponentMapper<Spatial> sm;
@@ -22,51 +57,41 @@ public class CollisionSystem extends EntitySystem {
 	@Mapper
 	ComponentMapper<Reward> rm;
 
-	LawyerRace game;
-	
+	private LawyerRace game;
+	private Array<CollisionGroup> groups;
+
 	public CollisionSystem(LawyerRace game) {
-		super(Aspect.getAspectForAll(Spatial.class));
 		this.game = game;
 	}
 
 	@Override
-	protected void processEntities(ImmutableBag<Entity> entities) {
-		for (int i = 0; i < entities.size(); i++) {
-			for (int j = i + 1; j < entities.size(); j++) {
-				Entity a = entities.get(i);
-				Entity b = entities.get(j);
-				
-				Spatial sa = sm.get(a);
-				Spatial sb = sm.get(b);
-
-				if (sa.intersects(sb)) {
-					collides(a, b);
-				}
+	protected void initialize() {
+		groups = new Array<CollisionGroup>();
+		
+		groups.add(new CollisionGroup(Group.PLAYER, Group.ENEMY, new CollisionHandler() {
+			@Override
+			public void handleCollision(Entity a, Entity b) {
+				game.setScreen(new GameOverScreen(game));
 			}
-		}
-	}
-	
-	void collides(Entity a, Entity b) {
-		// FIXME: this is a mess, how to do this properly??
+		}));
 		
-		Entity rewardEntity = null;
-		Reward r = rm.getSafe(a);
-		if (r == null) {
-			r = rm.getSafe(b);
-			if (r != null) rewardEntity = b;
-		} else rewardEntity = a;
-		Player p = pm.getSafe(a);
-		if (p == null) p = pm.getSafe(b);
-		
-		if (r == null && p != null) {
-			// player collided with enemy, kill
-			game.setScreen(new GameOverScreen(game));
-		} else if (r != null && p != null) {
-			// player collided with something that gave points
-			p.score += r.points;
-			rewardEntity.deleteFromWorld();
-		}
+		groups.add(new CollisionGroup(Group.PLAYER, Group.DOLLAR, new CollisionHandler() {
+			@Override
+			public void handleCollision(Entity a, Entity b) {
+				Player p = pm.get(a);
+				Reward r = rm.get(b);
+				p.score += r.points;
+				b.deleteFromWorld();
+			}
+		}));
 	}
+
+	@Override
+   protected void processSystem() {
+		for (CollisionGroup group : groups) {
+			group.checkCollisions();
+		}
+   }
 
 	@Override
 	protected boolean checkProcessing() {

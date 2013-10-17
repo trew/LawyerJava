@@ -7,6 +7,13 @@ public class Spatial extends Component {
 	public float width, height;
 	public float angle;
 
+	public Spatial() {
+	}
+
+	public Spatial(float x, float y, float width, float height) {
+		position(x, y).size(width, height);
+	}
+
 	public Spatial position(float x, float y) {
 		this.x = x;
 		this.y = y;

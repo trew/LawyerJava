@@ -9,23 +9,27 @@ import se.samuelandersson.lawyerrace.component.TextureRegion;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.artemis.managers.GroupManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
 public final class EntityFactory {
 
+	private static GroupManager getGroupManager(World world) {
+		return world.getManager(GroupManager.class);
+	}
+	
 	public static Entity createPlayer(World world) {
 		Entity e = world.createEntity();
 
-		Spatial s = new Spatial();
-		s.position(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2).size(30, 30);
-
 		TextureRegion r = new TextureRegion("entities/player");
-
-		Movement m = new Movement();
-		m.velocity(200);
-
+		float width = r.region.getRegionWidth();
+		float height = r.region.getRegionHeight();
+		Spatial s = new Spatial(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, width, height);
+		Movement m = new Movement(200);
 		Player p = new Player();
+		
+		getGroupManager(world).add(e, Group.PLAYER);
 
 		e.addComponent(p);
 		e.addComponent(s);
@@ -40,15 +44,11 @@ public final class EntityFactory {
 		TextureRegion r = new TextureRegion("entities/enemy");
 		float width = r.region.getRegionWidth();
 		float height = r.region.getRegionHeight();
+		Spatial s = new Spatial(0, 0, width, height);
+		Movement m = new Movement(150);
+		Target t = new Target(target);
 
-		Spatial s = new Spatial();
-		s.position(0, 0).size(width, height);
-
-		Movement m = new Movement();
-		m.velocity(150);
-
-		Target t = new Target();
-		t.target = target;
+		getGroupManager(world).add(e, Group.ENEMY);
 
 		e.addComponent(s);
 		e.addComponent(r);
@@ -61,16 +61,16 @@ public final class EntityFactory {
 		Entity e = world.createEntity();
 
 		TextureRegion r = new TextureRegion("entities/dollar");
+
 		float width = r.region.getRegionWidth();
 		float height = r.region.getRegionHeight();
-
-		Spatial s = new Spatial();
 		float x = MathUtils.random(0, Gdx.graphics.getWidth() - width);
 		float y = MathUtils.random(0, Gdx.graphics.getHeight() - height);
-		s.position(x, y).size(width, height);
-
-		Reward rw = new Reward();
-		rw.points = 1;
+		Spatial s = new Spatial(x, y, width, height);
+		Reward rw = new Reward(1);
+		
+		getGroupManager(world).add(e, Group.DOLLAR);
+		
 		e.addComponent(rw);
 		e.addComponent(r);
 		e.addComponent(s);

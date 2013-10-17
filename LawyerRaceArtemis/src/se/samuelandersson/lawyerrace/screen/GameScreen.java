@@ -13,6 +13,7 @@ import se.samuelandersson.lawyerrace.system.UIRenderSystem;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.World;
+import com.artemis.managers.GroupManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
@@ -33,6 +34,8 @@ public class GameScreen implements Screen {
 		renderSystems = new Array<EntitySystem>();
 		
 		world = new World();
+		
+		world.setManager(new GroupManager());
 
 		updateSystems.add(world.setSystem(new MovementSystem(), true));
 		updateSystems.add(world.setSystem(new TargetMovementSystem(), true));
