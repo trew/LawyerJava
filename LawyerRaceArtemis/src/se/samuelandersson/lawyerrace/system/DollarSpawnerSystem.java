@@ -11,21 +11,20 @@ import com.artemis.utils.ImmutableBag;
 public class DollarSpawnerSystem extends EntitySystem {
 
 	public DollarSpawnerSystem() {
-	   super(Aspect.getAspectForAll(Reward.class));
-   }
+		super(Aspect.getAspectForAll(Reward.class));
+	}
 
 	@Override
-   protected void processEntities(ImmutableBag<Entity> entities) {
-		int entitiesSize = entities.size();
-		while (entitiesSize <= 0) {
+	protected void processEntities(ImmutableBag<Entity> entities) {
+		int dollarsToSpawn = 1 - entities.size();
+		for (int i = 0; i < dollarsToSpawn; i++) {
 			EntityFactory.createDollar(world).addToWorld();
-			entitiesSize++; // simulate the bag growing
 		}
-   }
+	}
 
 	@Override
-   protected boolean checkProcessing() {
+	protected boolean checkProcessing() {
 		return true;
-   }
+	}
 
 }

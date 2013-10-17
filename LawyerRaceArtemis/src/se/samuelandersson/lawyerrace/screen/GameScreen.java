@@ -6,14 +6,15 @@ import se.samuelandersson.lawyerrace.system.CollisionSystem;
 import se.samuelandersson.lawyerrace.system.DollarSpawnerSystem;
 import se.samuelandersson.lawyerrace.system.MovementSystem;
 import se.samuelandersson.lawyerrace.system.PlayerInputSystem;
+import se.samuelandersson.lawyerrace.system.EntityRenderSystem;
 import se.samuelandersson.lawyerrace.system.RenderSystem;
 import se.samuelandersson.lawyerrace.system.TargetMovementSystem;
 import se.samuelandersson.lawyerrace.system.UIRenderSystem;
 
-import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
+import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
@@ -24,73 +25,38 @@ public class GameScreen implements Screen {
 	private Array<EntitySystem> updateSystems;
 	private Array<EntitySystem> renderSystems;
 
-	private PlayerInputSystem playerInput;
-
 	private final LawyerRace game;
 
 	public GameScreen(LawyerRace game) {
 		this.game = game;
 		updateSystems = new Array<EntitySystem>();
 		renderSystems = new Array<EntitySystem>();
-		
+
 		world = new World();
-		
+
 		world.setManager(new GroupManager());
+		world.setManager(new TagManager());
 
 		updateSystems.add(world.setSystem(new MovementSystem(), true));
 		updateSystems.add(world.setSystem(new TargetMovementSystem(), true));
 		updateSystems.add(world.setSystem(new CollisionSystem(game), true));
 		updateSystems.add(world.setSystem(new DollarSpawnerSystem(), true));
-		renderSystems.add(world.setSystem(new RenderSystem(), true));
+		
+		renderSystems.add(world.setSystem(new EntityRenderSystem(), true));
 		renderSystems.add(world.setSystem(new UIRenderSystem(), true));
 
-		PlayerInputSystem input = world.setSystem(new PlayerInputSystem());
-		Gdx.input.setInputProcessor(input);
-		
+		Gdx.input.setInputProcessor(world.setSystem(new PlayerInputSystem()));
+
 		world.initialize();
-		
-		Entity player = EntityFactory.createPlayer(world);
-		player.addToWorld();
-		EntityFactory.createEnemy(world, player).addToWorld();
+		EntityFactory.createPlayer(world).addToWorld();
 	}
 
 	public void update(float delta) {
 		world.process();
-		
+
 		for (EntitySystem system : updateSystems) {
 			system.process();
 		}
-	}
-
-	private void checkCollision() {
-		// for (int i = 0; i < enemies.size; i++) {
-		// Enemy enemy = enemies.get(i);
-		// if (Intersector.intersects(player, enemy)) {
-		// player.setDead(true);
-		// stage.removeCaptureListener(playerInput);
-		// game.setScreen(new GameOverScreen(game));
-		// }
-		// }
-		//
-		// for (int i = 0; i < dollars.size; i++) {
-		// Dollar dollar = dollars.get(i);
-		// if (Intersector.intersects(player, dollar)) {
-		// player.setScore(player.getScore() + 1);
-		// dollar.remove();
-		// dollars.removeIndex(i--);
-		// }
-		// }
-	}
-
-	private void createDollar() {
-		// if (dollars.size <= 0) {
-		// Dollar dollar = new Dollar();
-		// float dollarX = MathUtils.random(0, Gdx.graphics.getWidth() - dollar.getWidth());
-		// float dollarY = MathUtils.random(0, Gdx.graphics.getHeight() - dollar.getHeight());
-		// dollar.setPosition(dollarX, dollarY);
-		// dollars.add(dollar);
-		// stage.addActor(dollar);
-		// }
 	}
 
 	@Override
@@ -102,30 +68,27 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
+		for (EntitySystem system : renderSystems) {
+			((RenderSystem) system).resize(width, height);
+		}
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
+		// not called
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
+		// not called
 	}
 
 	@Override

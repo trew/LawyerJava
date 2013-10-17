@@ -10,6 +10,7 @@ import se.samuelandersson.lawyerrace.component.TextureRegion;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
+import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
@@ -30,6 +31,7 @@ public final class EntityFactory {
 		Player p = new Player();
 		
 		getGroupManager(world).add(e, Group.PLAYER);
+		world.getManager(TagManager.class).register("PLAYER", e);
 
 		e.addComponent(p);
 		e.addComponent(s);

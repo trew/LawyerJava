@@ -12,7 +12,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class UIRenderSystem extends EntityProcessingSystem {
+public class UIRenderSystem extends EntityProcessingSystem implements RenderSystem {
 
 	@Mapper
 	ComponentMapper<Player> pm;
@@ -24,6 +24,10 @@ public class UIRenderSystem extends EntityProcessingSystem {
 	   super(Aspect.getAspectForAll(Player.class));
 	   batch = new SpriteBatch();
 	   font = Assets.getFont();
+   }
+	
+	@Override
+   public void resize(int width, int height) {
    }
 
 	@Override
