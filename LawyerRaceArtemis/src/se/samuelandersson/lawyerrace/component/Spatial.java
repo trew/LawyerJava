@@ -18,9 +18,17 @@ public class Spatial extends Component {
 		this.height = height;
 		return this;
 	}
-	
+
 	public Spatial angle(float angle) {
 		this.angle = angle;
 		return this;
+	}
+
+	public boolean intersects(Spatial b) {
+		if (x > b.x + b.width) return false;
+		if (b.x > x + width) return false;
+		if (y > b.y + b.height) return false;
+		if (b.y > y + height) return false;
+		return true;
 	}
 }

@@ -2,10 +2,13 @@ package se.samuelandersson.lawyerrace.screen;
 
 import se.samuelandersson.lawyerrace.LawyerRace;
 import se.samuelandersson.lawyerrace.entity.EntityFactory;
+import se.samuelandersson.lawyerrace.system.CollisionSystem;
+import se.samuelandersson.lawyerrace.system.DollarSpawnerSystem;
 import se.samuelandersson.lawyerrace.system.MovementSystem;
 import se.samuelandersson.lawyerrace.system.PlayerInputSystem;
 import se.samuelandersson.lawyerrace.system.RenderSystem;
 import se.samuelandersson.lawyerrace.system.TargetMovementSystem;
+import se.samuelandersson.lawyerrace.system.UIRenderSystem;
 
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
@@ -33,7 +36,10 @@ public class GameScreen implements Screen {
 
 		updateSystems.add(world.setSystem(new MovementSystem(), true));
 		updateSystems.add(world.setSystem(new TargetMovementSystem(), true));
+		updateSystems.add(world.setSystem(new CollisionSystem(game), true));
+		updateSystems.add(world.setSystem(new DollarSpawnerSystem(), true));
 		renderSystems.add(world.setSystem(new RenderSystem(), true));
+		renderSystems.add(world.setSystem(new UIRenderSystem(), true));
 
 		PlayerInputSystem input = world.setSystem(new PlayerInputSystem());
 		Gdx.input.setInputProcessor(input);

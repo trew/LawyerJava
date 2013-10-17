@@ -10,6 +10,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.badlogic.gdx.Gdx;
 
 public class MovementSystem extends EntityProcessingSystem {
 
@@ -35,6 +36,15 @@ public class MovementSystem extends EntityProcessingSystem {
 		Movement movement = mm.get(e);
 		spatial.x += movement.velocityX * movement.directionX * delta;
 		spatial.y += movement.velocityY * movement.directionY * delta;
+		
+		float maxX = Gdx.graphics.getWidth() - spatial.width;
+		float maxY = Gdx.graphics.getHeight() - spatial.height;
+		float minX = 0;
+		float minY = 0;
+		if (spatial.x > maxX) spatial.x = maxX;
+		if (spatial.y > maxY) spatial.y = maxY;
+		if (spatial.x < minX) spatial.x = minX;
+		if (spatial.y < minX) spatial.y = minY;
 	}
 
 }
