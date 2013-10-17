@@ -4,7 +4,6 @@ import se.samuelandersson.lawyerrace.component.Movement;
 import se.samuelandersson.lawyerrace.component.Player;
 import se.samuelandersson.lawyerrace.component.Reward;
 import se.samuelandersson.lawyerrace.component.Spatial;
-import se.samuelandersson.lawyerrace.component.Target;
 import se.samuelandersson.lawyerrace.component.TextureRegion;
 
 import com.artemis.Entity;
@@ -48,14 +47,12 @@ public final class EntityFactory {
 		float height = r.region.getRegionHeight();
 		Spatial s = new Spatial(0, 0, width, height);
 		Movement m = new Movement(150);
-		Target t = new Target(target);
 
 		getGroupManager(world).add(e, Group.ENEMY);
 
 		e.addComponent(s);
 		e.addComponent(r);
 		e.addComponent(m);
-		e.addComponent(t);
 		return e;
 	}
 

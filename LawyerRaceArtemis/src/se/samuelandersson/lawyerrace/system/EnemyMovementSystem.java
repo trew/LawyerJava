@@ -1,37 +1,40 @@
 package se.samuelandersson.lawyerrace.system;
 
 import se.samuelandersson.lawyerrace.GlobalTime;
+import se.samuelandersson.lawyerrace.component.Enemy;
 import se.samuelandersson.lawyerrace.component.Movement;
 import se.samuelandersson.lawyerrace.component.Spatial;
-import se.samuelandersson.lawyerrace.component.Target;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
+import com.artemis.managers.TagManager;
 import com.artemis.systems.EntityProcessingSystem;
 
-public class TargetMovementSystem extends EntityProcessingSystem {
+public class EnemyMovementSystem extends EntityProcessingSystem {
 
 	@Mapper
 	ComponentMapper<Spatial> sm;
 	@Mapper
 	ComponentMapper<Movement> mm;
-	@Mapper
-	ComponentMapper<Target> tm;
 
 	protected static final float DIAGONAL_MULTIPLIER = 0.7071068f;
 
-	public TargetMovementSystem() {
-		super(Aspect.getAspectForAll(Spatial.class, Movement.class, Target.class));
+	private Entity target;
+	
+	public EnemyMovementSystem() {
+		super(Aspect.getAspectForAll(Enemy.class, Spatial.class, Movement.class));
+	}
+	
+	@Override
+	protected void begin() {
+		target = world.getManager(TagManager.class).getEntity("PLAYER");
 	}
 
 	@Override
 	protected void process(Entity e) {
-		Target target = tm.get(e);
-		if (target.target == null) return;
-		Spatial targetSpatial = sm.getSafe(target.target);
-		if (targetSpatial == null) return;
+		Spatial targetSpatial = sm.get(target);
 
 		float delta = GlobalTime.getDelta();
 

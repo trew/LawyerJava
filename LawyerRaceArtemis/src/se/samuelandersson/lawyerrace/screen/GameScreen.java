@@ -8,7 +8,7 @@ import se.samuelandersson.lawyerrace.system.MovementSystem;
 import se.samuelandersson.lawyerrace.system.PlayerInputSystem;
 import se.samuelandersson.lawyerrace.system.EntityRenderSystem;
 import se.samuelandersson.lawyerrace.system.RenderSystem;
-import se.samuelandersson.lawyerrace.system.TargetMovementSystem;
+import se.samuelandersson.lawyerrace.system.EnemyMovementSystem;
 import se.samuelandersson.lawyerrace.system.UIRenderSystem;
 
 import com.artemis.EntitySystem;
@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
 		world.setManager(new TagManager());
 
 		updateSystems.add(world.setSystem(new MovementSystem(), true));
-		updateSystems.add(world.setSystem(new TargetMovementSystem(), true));
+		updateSystems.add(world.setSystem(new EnemyMovementSystem(), true));
 		updateSystems.add(world.setSystem(new CollisionSystem(game), true));
 		updateSystems.add(world.setSystem(new DollarSpawnerSystem(), true));
 		

@@ -1,9 +1,9 @@
 package se.samuelandersson.lawyerrace.system;
 
 import se.samuelandersson.lawyerrace.GlobalTime;
+import se.samuelandersson.lawyerrace.component.Enemy;
 import se.samuelandersson.lawyerrace.component.Movement;
 import se.samuelandersson.lawyerrace.component.Spatial;
-import se.samuelandersson.lawyerrace.component.Target;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -20,7 +20,7 @@ public class MovementSystem extends EntityProcessingSystem {
 	ComponentMapper<Movement> mm;
 
 	public MovementSystem() {
-		super(Aspect.getAspectForAll(Spatial.class, Movement.class).exclude(Target.class));
+		super(Aspect.getAspectForAll(Spatial.class, Movement.class).exclude(Enemy.class));
 	}
 
 	@Override
