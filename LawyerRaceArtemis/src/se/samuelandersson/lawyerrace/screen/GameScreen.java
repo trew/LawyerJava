@@ -2,6 +2,7 @@ package se.samuelandersson.lawyerrace.screen;
 
 import se.samuelandersson.lawyerrace.LawyerRace;
 import se.samuelandersson.lawyerrace.entity.EntityFactory;
+import se.samuelandersson.lawyerrace.system.ActionsSystem;
 import se.samuelandersson.lawyerrace.system.CollisionSystem;
 import se.samuelandersson.lawyerrace.system.DollarSpawnerSystem;
 import se.samuelandersson.lawyerrace.system.EnemySpawnerSystem;
@@ -38,6 +39,7 @@ public class GameScreen implements Screen {
 		world.setManager(new GroupManager());
 		world.setManager(new TagManager());
 
+		updateSystems.add(world.setSystem(new ActionsSystem(), true));
 		updateSystems.add(world.setSystem(new MovementSystem(), true));
 		updateSystems.add(world.setSystem(new EnemyMovementSystem(), true));
 		updateSystems.add(world.setSystem(new CollisionSystem(game), true));

@@ -1,6 +1,8 @@
 package se.samuelandersson.lawyerrace.system;
 
 import se.samuelandersson.lawyerrace.LawyerRace;
+import se.samuelandersson.lawyerrace.actions.Actions;
+import se.samuelandersson.lawyerrace.actions.SequentialAction;
 import se.samuelandersson.lawyerrace.component.Player;
 import se.samuelandersson.lawyerrace.component.Reward;
 import se.samuelandersson.lawyerrace.component.Spatial;
@@ -78,12 +80,15 @@ public class CollisionSystem extends VoidEntitySystem {
 		groups.add(new CollisionGroup(Group.PLAYER, Group.DOLLAR, new CollisionHandler() {
 			@Override
 			public void handleCollision(Entity a, Entity b) {
-				Reward r = rm.get(b);
-				if (!r.isActive()) return;
+				Reward r = rm.getSafe(b);
+				if (r == null) return;
 				Player p = pm.get(a);
 				p.score += r.points;
-				r.setActive(false);
-				b.deleteFromWorld();
+				b.removeComponent(r);
+				SequentialAction seq = Actions.sequence();
+				seq.addAction(Actions.scaleTo(1.2f, 1.2f, 0.1f)).addAction(Actions.scaleTo(0, 0, 0.1f)).addAction(Actions.remove());
+				world.getSystem(ActionsSystem.class).addAction(b, seq);
+				b.changedInWorld();
 			}
 		}));
 	}
