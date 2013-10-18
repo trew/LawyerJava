@@ -7,6 +7,6 @@
 	<classpathentry kind="lib" path="lib/gdx-backend-lwjgl.jar" sourcepath="lib/sources/gdx-backend-lwjgl-sources.jar"/>
 	<classpathentry kind="lib" path="lib/gdx-natives.jar"/>
 	<classpathentry kind="lib" path="lib/gdx.jar" sourcepath="lib/sources/gdx-sources.jar"/>
-	<classpathentry kind="lib" path="lib/artemis.jar"/>
+	<classpathentry kind="lib" path="lib/artemis.jar" sourcepath="/artemis-framework"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
