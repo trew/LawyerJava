@@ -78,9 +78,11 @@ public class CollisionSystem extends VoidEntitySystem {
 		groups.add(new CollisionGroup(Group.PLAYER, Group.DOLLAR, new CollisionHandler() {
 			@Override
 			public void handleCollision(Entity a, Entity b) {
-				Player p = pm.get(a);
 				Reward r = rm.get(b);
+				if (!r.isActive()) return;
+				Player p = pm.get(a);
 				p.score += r.points;
+				r.setActive(false);
 				b.deleteFromWorld();
 			}
 		}));

@@ -6,6 +6,8 @@ public class Spatial extends Component {
 	public float x, y;
 	public float width, height;
 	public float angle;
+	public float scaleX = 1;
+	public float scaleY = 1;
 
 	public Spatial() {
 	}
@@ -28,6 +30,12 @@ public class Spatial extends Component {
 
 	public Spatial angle(float angle) {
 		this.angle = angle;
+		return this;
+	}
+
+	public Spatial scale(float scaleX, float scaleY) {
+		this.scaleX = scaleX;
+		this.scaleY = scaleY;
 		return this;
 	}
 

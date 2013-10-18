@@ -55,7 +55,7 @@ public class EntityRenderSystem extends EntityProcessingSystem implements Render
 		if (m != null) {
 			rotation = getDirectionMultiplier(m) * 45;
 		}
-		batch.draw(r.region, s.x, s.y, s.width / 2, s.height / 2, s.width, s.height, 1, 1, rotation);
+		batch.draw(r.region, s.x, s.y, s.width / 2, s.height / 2, s.width, s.height, s.scaleX, s.scaleY, rotation);
 	}
 
 	public int getDirectionMultiplier(Movement m) {
