@@ -1,5 +1,6 @@
 package se.samuelandersson.lawyerrace.entity;
 
+import se.samuelandersson.lawyerrace.component.ActionComponent;
 import se.samuelandersson.lawyerrace.component.Enemy;
 import se.samuelandersson.lawyerrace.component.Movement;
 import se.samuelandersson.lawyerrace.component.Player;
@@ -72,6 +73,7 @@ public final class EntityFactory {
 		
 		getGroupManager(world).add(e, Group.DOLLAR);
 		
+		e.addComponent(new ActionComponent());
 		e.addComponent(rw);
 		e.addComponent(r);
 		e.addComponent(s);
