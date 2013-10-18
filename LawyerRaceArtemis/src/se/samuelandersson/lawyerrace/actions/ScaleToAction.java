@@ -8,17 +8,18 @@ import se.samuelandersson.lawyerrace.component.Spatial;
 
 public class ScaleToAction extends BaseAction {
 
-	float startX;
-	float startY;
-	float endX;
-	float endY;
+	protected float startX;
+	protected float startY;
+	protected float endX;
+	protected float endY;
 
-	float duration;
-	float time;
-	Interpolation interpolation;
+	protected float duration;
+	protected float time;
+	protected boolean completed = false;
+	protected Interpolation interpolation;
 	
-	ComponentType spatialType;
-	Spatial spatial;
+	protected ComponentType spatialType;
+	protected Spatial spatial;
 
 	ScaleToAction (float scaleX, float scaleY, float duration, Interpolation interpolation) {
 		spatialType = ComponentType.getTypeFor(Spatial.class);
@@ -34,9 +35,9 @@ public class ScaleToAction extends BaseAction {
 	}
 
 	@Override
-	public void update (float delta) {
+	public boolean update (float delta) {
 		Spatial s = (Spatial)entity.getComponent(spatialType);
-		if (s == null) return;
+		if (s == null) return true;
 		if (time == 0) setup(s);
 		
 		time += delta;
@@ -48,9 +49,9 @@ public class ScaleToAction extends BaseAction {
 			percent = time / duration;
 			if (interpolation != null) percent = interpolation.apply(percent);
 		}
-		
 		s.scaleX = startX + (endX - startX) * percent;
 		s.scaleY = startY + (endY - startY) * percent;
+		return completed;
 	}
 
 }

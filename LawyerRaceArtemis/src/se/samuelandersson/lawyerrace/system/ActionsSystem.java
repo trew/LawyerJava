@@ -46,8 +46,8 @@ public class ActionsSystem extends EntityProcessingSystem {
 
 		for (int i = 0; i < entityActions.size; i++) {
 			BaseAction action = entityActions.get(i);
-			action.update(delta);
-			if (action.isCompleted()) entityActions.removeIndex(i--);
+			boolean completed = action.update(delta);
+			if (completed) entityActions.removeIndex(i--);
 		}
 		if (entityActions.size == 0) {
 			e.removeComponent(actionComponentType).changedInWorld();

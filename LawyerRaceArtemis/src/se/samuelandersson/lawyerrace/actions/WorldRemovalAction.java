@@ -6,9 +6,9 @@ public class WorldRemovalAction extends BaseAction {
 	}
 	
 	@Override
-	public void update (float delta) {
+	public boolean update (float delta) {
 		entity.deleteFromWorld();
-		setCompleted(true);
+		return true;
 	}
 
 }

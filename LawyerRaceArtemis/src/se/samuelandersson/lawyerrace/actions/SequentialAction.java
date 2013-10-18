@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class SequentialAction extends BaseAction {
 
-	Array<BaseAction> actions;
+	protected Array<BaseAction> actions;
 
 	SequentialAction() {
 		actions = new Array<BaseAction>();
@@ -26,16 +26,12 @@ public class SequentialAction extends BaseAction {
 	}
 
 	@Override
-	public void update (float delta) {
+	public boolean update (float delta) {
 		BaseAction action = actions.first();
-		if (action == null) {
-			setCompleted(true);
-			return;
-		}
-		action.update(delta);
-		if (action.isCompleted()) {
+		if (action == null) return true;
+		if (action.update(delta)) {
 			actions.removeValue(action, true);
 		}
-		setCompleted(actions.size == 0);
+		return actions.size == 0;
 	}
 }
