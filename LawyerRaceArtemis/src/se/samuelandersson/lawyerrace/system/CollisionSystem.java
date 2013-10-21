@@ -1,5 +1,6 @@
 package se.samuelandersson.lawyerrace.system;
 
+import se.samuelandersson.lawyerrace.CoreRegistry;
 import se.samuelandersson.lawyerrace.LawyerRace;
 import se.samuelandersson.lawyerrace.actions.Actions;
 import se.samuelandersson.lawyerrace.actions.SequenceAction;
@@ -62,11 +63,9 @@ public class CollisionSystem extends VoidEntitySystem {
 	@Mapper
 	ComponentMapper<ActionComponent> am;
 
-	private LawyerRace game;
 	private Array<CollisionGroup> groups;
 
-	public CollisionSystem(LawyerRace game) {
-		this.game = game;
+	public CollisionSystem() {
 	}
 
 	@Override
@@ -76,6 +75,7 @@ public class CollisionSystem extends VoidEntitySystem {
 		groups.add(new CollisionGroup(Group.PLAYER, Group.ENEMY, new CollisionHandler() {
 			@Override
 			public void handleCollision(Entity a, Entity b) {
+				LawyerRace game = CoreRegistry.get(LawyerRace.class);
 				game.setScreen(new GameOverScreen(game));
 			}
 		}));

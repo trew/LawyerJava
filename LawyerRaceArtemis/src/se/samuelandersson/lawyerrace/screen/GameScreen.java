@@ -1,10 +1,8 @@
 package se.samuelandersson.lawyerrace.screen;
 
-import se.samuelandersson.lawyerrace.LawyerRace;
 import se.samuelandersson.lawyerrace.entity.EntityFactory;
 import se.samuelandersson.lawyerrace.system.ActionsSystem;
 import se.samuelandersson.lawyerrace.system.CollisionSystem;
-import se.samuelandersson.lawyerrace.system.DebugRenderSystem;
 import se.samuelandersson.lawyerrace.system.DollarSpawnerSystem;
 import se.samuelandersson.lawyerrace.system.EnemySpawnerSystem;
 import se.samuelandersson.lawyerrace.system.MovementSystem;
@@ -28,12 +26,9 @@ public class GameScreen implements Screen {
 	private Array<EntitySystem> updateSystems;
 	private Array<EntitySystem> renderSystems;
 
-	private final LawyerRace game;
-	
 	private OrthographicCamera camera;
 
-	public GameScreen(LawyerRace game) {
-		this.game = game;
+	public GameScreen() {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true);
 		updateSystems = new Array<EntitySystem>();
@@ -47,7 +42,7 @@ public class GameScreen implements Screen {
 		updateSystems.add(world.setSystem(new ActionsSystem(), true));
 		updateSystems.add(world.setSystem(new MovementSystem(), true));
 		updateSystems.add(world.setSystem(new EnemyMovementSystem(), true));
-		updateSystems.add(world.setSystem(new CollisionSystem(game), true));
+		updateSystems.add(world.setSystem(new CollisionSystem(), true));
 		updateSystems.add(world.setSystem(new DollarSpawnerSystem(), true));
 		updateSystems.add(world.setSystem(new EnemySpawnerSystem(), true));
 		

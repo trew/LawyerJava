@@ -10,8 +10,9 @@ public class LawyerRace extends Game {
 
 	@Override
 	public void create() {
+		CoreRegistry.put(this);
 		Assets.load();
-		setScreen(new GameScreen(this));
+		setScreen(new GameScreen());
 	}
 
 	@Override
