@@ -1,6 +1,7 @@
 package se.samuelandersson.lawyerrace.screen;
 
 import se.samuelandersson.lawyerrace.LawyerRace;
+import se.samuelandersson.lawyerrace.utils.GdxUtils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -26,7 +27,7 @@ public class GameOverScreen implements Screen {
 	public void render() {
 		camera.update();
 		batch.begin();
-		font.draw(batch, "Game Over!", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		GdxUtils.drawCenteredAt(batch, font, "Game Over!", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		batch.end();
 	}
 

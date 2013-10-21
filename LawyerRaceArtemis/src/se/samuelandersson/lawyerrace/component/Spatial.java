@@ -8,7 +8,7 @@ public class Spatial extends Component {
 	public float angle;
 	public float scaleX = 1;
 	public float scaleY = 1;
-
+	
 	public Spatial() {
 	}
 

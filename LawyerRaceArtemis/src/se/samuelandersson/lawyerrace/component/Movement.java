@@ -8,6 +8,7 @@ public class Movement extends Component {
 	public float velocityY;
 	public int directionX;
 	public int directionY;
+	public boolean moving = true;
 	
 	public Movement() {
 	}

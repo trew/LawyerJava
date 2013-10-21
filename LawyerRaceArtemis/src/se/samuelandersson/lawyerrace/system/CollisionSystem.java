@@ -2,7 +2,7 @@ package se.samuelandersson.lawyerrace.system;
 
 import se.samuelandersson.lawyerrace.LawyerRace;
 import se.samuelandersson.lawyerrace.actions.Actions;
-import se.samuelandersson.lawyerrace.actions.SequentialAction;
+import se.samuelandersson.lawyerrace.actions.SequenceAction;
 import se.samuelandersson.lawyerrace.component.ActionComponent;
 import se.samuelandersson.lawyerrace.component.Player;
 import se.samuelandersson.lawyerrace.component.Reward;
@@ -90,7 +90,7 @@ public class CollisionSystem extends VoidEntitySystem {
 				world.getManager(GroupManager.class).remove(b, Group.DOLLAR);
 				b.removeComponent(r).changedInWorld();
 
-				SequentialAction seq = Actions.sequence();
+				SequenceAction seq = Actions.sequence();
 				seq.addAction(Actions.scaleTo(1.2f, 1.2f, 0.1f)).addAction(Actions.scaleTo(0, 0, 0.1f)).addAction(Actions.remove());
 				am.get(b).actions.add(seq);
 			}

@@ -42,13 +42,16 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 		}
 		if (keycode == Keys.UP) {
 			movement.directionX = 0;
-			movement.directionY = 1;
+			movement.directionY = -1;
 			return true;
 		}
 		if (keycode == Keys.DOWN) {
 			movement.directionX = 0;
-			movement.directionY = -1;
+			movement.directionY = 1;
 			return true;
+		}
+		if (keycode == Keys.SPACE) {
+			movement.moving = !movement.moving;
 		}
 		return false;
 	}

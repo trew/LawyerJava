@@ -33,6 +33,8 @@ public class MovementSystem extends EntityProcessingSystem {
 
 		Spatial spatial = sm.get(e);
 		Movement movement = mm.get(e);
+		if (!movement.moving) return;
+		
 		spatial.x += movement.velocityX * movement.directionX * delta;
 		spatial.y += movement.velocityY * movement.directionY * delta;
 		

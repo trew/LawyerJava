@@ -6,7 +6,7 @@ import se.samuelandersson.lawyerrace.component.Movement;
 import se.samuelandersson.lawyerrace.component.Player;
 import se.samuelandersson.lawyerrace.component.Reward;
 import se.samuelandersson.lawyerrace.component.Spatial;
-import se.samuelandersson.lawyerrace.component.TextureRegion;
+import se.samuelandersson.lawyerrace.component.SpriteComponent;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -24,11 +24,12 @@ public final class EntityFactory {
 	public static Entity createPlayer(World world) {
 		Entity e = world.createEntity();
 
-		TextureRegion r = new TextureRegion("entities/player");
-		float width = r.region.getRegionWidth();
-		float height = r.region.getRegionHeight();
+		SpriteComponent r = new SpriteComponent("entities/player");
+		float width = r.sprite.getWidth();
+		float height = r.sprite.getHeight();
 		Spatial s = new Spatial(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, width, height);
 		Movement m = new Movement(200);
+		m.directionX = 1;
 		Player p = new Player();
 		
 		getGroupManager(world).add(e, Group.PLAYER);
@@ -44,9 +45,9 @@ public final class EntityFactory {
 	public static Entity createEnemy(World world, Entity target) {
 		Entity e = world.createEntity();
 
-		TextureRegion r = new TextureRegion("entities/enemy");
-		float width = r.region.getRegionWidth();
-		float height = r.region.getRegionHeight();
+		SpriteComponent r = new SpriteComponent("entities/enemy");
+		float width = r.sprite.getWidth();
+		float height = r.sprite.getHeight();
 		Spatial s = new Spatial(0, 0, width, height);
 		Movement m = new Movement(150);
 
@@ -62,10 +63,10 @@ public final class EntityFactory {
 	public static Entity createDollar(World world) {
 		Entity e = world.createEntity();
 
-		TextureRegion r = new TextureRegion("entities/dollar");
+		SpriteComponent r = new SpriteComponent("entities/dollar");
 
-		float width = r.region.getRegionWidth();
-		float height = r.region.getRegionHeight();
+		float width = r.sprite.getWidth();
+		float height = r.sprite.getHeight();
 		float x = MathUtils.random(0, Gdx.graphics.getWidth() - width);
 		float y = MathUtils.random(0, Gdx.graphics.getHeight() - height);
 		Spatial s = new Spatial(x, y, width, height);

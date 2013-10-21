@@ -33,6 +33,9 @@ public class EnemyMovementSystem extends EntityProcessingSystem {
 
 	@Override
 	protected void process(Entity e) {
+		Movement targetMovement = mm.get(target);
+		if (!targetMovement.moving) return;
+		
 		Spatial targetSpatial = sm.get(target);
 
 		float delta = world.getDelta();

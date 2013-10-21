@@ -2,6 +2,7 @@ package se.samuelandersson.lawyerrace.system;
 
 import se.samuelandersson.lawyerrace.Assets;
 import se.samuelandersson.lawyerrace.component.Player;
+import se.samuelandersson.lawyerrace.utils.GdxUtils;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -27,10 +28,6 @@ public class UIRenderSystem extends EntityProcessingSystem implements RenderSyst
    }
 	
 	@Override
-   public void resize(int width, int height) {
-   }
-
-	@Override
 	protected void begin() {
 		batch.begin();
 	}
@@ -48,7 +45,7 @@ public class UIRenderSystem extends EntityProcessingSystem implements RenderSyst
 	@Override
    protected void process(Entity e) {
 		Player p = pm.get(e);
-		font.draw(batch, Integer.toString(p.score), Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 10);
+		GdxUtils.drawCenteredAt(batch, font, Integer.toString(p.score), Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 10);
    }
 
 }

@@ -4,11 +4,11 @@ package se.samuelandersson.lawyerrace.actions;
 import com.artemis.Entity;
 import com.badlogic.gdx.utils.Array;
 
-public class SequentialAction extends BaseAction {
+public class SequenceAction extends BaseAction {
 
 	protected Array<BaseAction> actions;
 
-	SequentialAction() {
+	SequenceAction() {
 		actions = new Array<BaseAction>();
 	}
 	
@@ -20,7 +20,7 @@ public class SequentialAction extends BaseAction {
 		}
 	}
 	
-	public SequentialAction addAction(BaseAction a) {
+	public SequenceAction addAction(BaseAction a) {
 		actions.add(a);
 		return this;
 	}

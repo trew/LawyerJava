@@ -19,8 +19,8 @@ public class Actions {
 		return new ScaleToAction(x, y, duration, interpolation);
 	}
 	
-	public static SequentialAction sequence() {
-		return new SequentialAction();
+	public static SequenceAction sequence() {
+		return new SequenceAction();
 	}
 	
 	public static WorldRemovalAction remove() {
