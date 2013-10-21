@@ -5,6 +5,7 @@ import se.samuelandersson.lawyerrace.LawyerRace;
 import se.samuelandersson.lawyerrace.actions.Actions;
 import se.samuelandersson.lawyerrace.actions.SequenceAction;
 import se.samuelandersson.lawyerrace.component.ActionComponent;
+import se.samuelandersson.lawyerrace.component.Collision;
 import se.samuelandersson.lawyerrace.component.Player;
 import se.samuelandersson.lawyerrace.component.Reward;
 import se.samuelandersson.lawyerrace.component.Spatial;
@@ -32,19 +33,37 @@ public class CollisionSystem extends VoidEntitySystem {
 			this.groupB = gm.getEntities(groupB);
 			this.handler = handler;
 		}
+		
+		public void updateCollisionBoundaries() {
+			updateGroupBoundaries(groupA);
+			updateGroupBoundaries(groupB);
+		}
+		
+		private void updateGroupBoundaries(ImmutableBag<Entity> group) {
+			for (int i = 0; i < group.size(); i++) {
+				Entity e = group.get(i);
+				Collision c = cm.getSafe(e);
+				Spatial s = sm.getSafe(e);
+				if (c != null && s != null) {
+					c.polygon.setPosition(s.x, s.y);
+					c.polygon.setRotation(s.angle);
+					c.polygon.setScale(s.scaleX, s.scaleY);
+				}
+			}
+		}
 
 		public void checkCollisions() {
 			for (int i = 0; i < groupA.size(); i++) {
 				Entity a = groupA.get(i);
-				Spatial as = sm.getSafe(a);
-				if (as == null) continue;
+				Collision ac = cm.getSafe(a);
+				if (ac == null) continue;
 
 				for (int j = 0; j < groupB.size(); j++) {
 					Entity b = groupB.get(j);
-					Spatial bs = sm.getSafe(b);
-					if (bs == null) continue;
+					Collision bc = cm.getSafe(b);
+					if (bc == null) continue;
 
-					if (as.intersects(bs)) handler.handleCollision(a, b);
+					if (ac.overlaps(bc)) handler.handleCollision(a, b);
 				}
 			}
 		}
@@ -54,6 +73,8 @@ public class CollisionSystem extends VoidEntitySystem {
 		void handleCollision(Entity a, Entity b);
 	}
 
+	@Mapper
+	ComponentMapper<Collision> cm;
 	@Mapper
 	ComponentMapper<Spatial> sm;
 	@Mapper
@@ -71,7 +92,7 @@ public class CollisionSystem extends VoidEntitySystem {
 	@Override
 	protected void initialize() {
 		groups = new Array<CollisionGroup>();
-		
+
 		groups.add(new CollisionGroup(Group.PLAYER, Group.ENEMY, new CollisionHandler() {
 			@Override
 			public void handleCollision(Entity a, Entity b) {
@@ -79,7 +100,7 @@ public class CollisionSystem extends VoidEntitySystem {
 				game.setScreen(new GameOverScreen(game));
 			}
 		}));
-		
+
 		groups.add(new CollisionGroup(Group.PLAYER, Group.DOLLAR, new CollisionHandler() {
 			@Override
 			public void handleCollision(Entity a, Entity b) {
@@ -98,11 +119,12 @@ public class CollisionSystem extends VoidEntitySystem {
 	}
 
 	@Override
-   protected void processSystem() {
+	protected void processSystem() {
 		for (CollisionGroup group : groups) {
+			group.updateCollisionBoundaries();
 			group.checkCollisions();
 		}
-   }
+	}
 
 	@Override
 	protected boolean checkProcessing() {

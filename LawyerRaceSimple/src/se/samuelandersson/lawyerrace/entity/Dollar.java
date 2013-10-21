@@ -4,9 +4,8 @@ import se.samuelandersson.lawyerrace.Assets;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Dollar extends Actor {
+public class Dollar extends Entity {
 
 	private TextureRegion region;
 	private boolean active;
@@ -14,6 +13,7 @@ public class Dollar extends Actor {
 	public Dollar() {
 		region = Assets.getAtlas().findRegion("entities/dollar");
 		setBounds(0, 0, region.getRegionWidth(), region.getRegionHeight());
+		setOrigin(getWidth() / 2, getHeight() / 2);
 		active = true;
 	}
 

@@ -47,5 +47,5 @@ public class MovementSystem extends EntityProcessingSystem {
 		if (spatial.x < minX) spatial.x = minX;
 		if (spatial.y < minX) spatial.y = minY;
 	}
-
+	
 }

@@ -4,6 +4,7 @@ import se.samuelandersson.lawyerrace.Assets;
 import se.samuelandersson.lawyerrace.LawyerRace;
 import se.samuelandersson.lawyerrace.entity.Dollar;
 import se.samuelandersson.lawyerrace.entity.Enemy;
+import se.samuelandersson.lawyerrace.entity.Entity;
 import se.samuelandersson.lawyerrace.entity.MovingEntity;
 import se.samuelandersson.lawyerrace.entity.Player;
 import se.samuelandersson.lawyerrace.tools.Intersector;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -57,6 +59,8 @@ public class GameScreen implements Screen {
 					player.setDirection(MovingEntity.UP);
 				else if (keycode == Keys.DOWN)
 					player.setDirection(MovingEntity.DOWN);
+				else if (keycode == Keys.SPACE)
+					player.setMoving(!player.isMoving());
 				else
 					return false;
 				return true;
@@ -113,9 +117,18 @@ public class GameScreen implements Screen {
 	public void render() {
 		camera.update();
 		stage.draw();
+		if (LawyerRace.DEBUG) renderDebug();
 		batch.begin();
 		Assets.getFont().draw(batch, Integer.toString(player.getScore()), Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 10);
 		batch.end();
+	}
+	
+	public void renderDebug() {
+		for (Actor e : stage.getActors()) {
+			if (e instanceof Entity) {
+				((Entity)e).drawDebug();
+			}
+		}
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 public class LawyerRace extends Game {
 
 	private Screen currentScreen;
+	public static final boolean DEBUG = false;
 
 	@Override
 	public void create() {

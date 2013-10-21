@@ -1,9 +1,8 @@
-
 package se.samuelandersson.lawyerrace.system;
 
 import se.samuelandersson.lawyerrace.component.Movement;
 import se.samuelandersson.lawyerrace.component.Spatial;
-import se.samuelandersson.lawyerrace.component.SpriteComponent;
+import se.samuelandersson.lawyerrace.component.TextureRegionComponent;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -15,46 +14,46 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EntityRenderSystem extends EntityProcessingSystem implements RenderSystem {
 
-	@Mapper ComponentMapper<Spatial> sm;
-	@Mapper ComponentMapper<SpriteComponent> rm;
-	@Mapper ComponentMapper<Movement> mm;
+	@Mapper
+	ComponentMapper<Spatial> sm;
+	@Mapper
+	ComponentMapper<TextureRegionComponent> rm;
+	@Mapper
+	ComponentMapper<Movement> mm;
 
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 
-	public EntityRenderSystem (OrthographicCamera camera) {
-		super(Aspect.getAspectForAll(Spatial.class, SpriteComponent.class));
+	public EntityRenderSystem(OrthographicCamera camera) {
+		super(Aspect.getAspectForAll(Spatial.class, TextureRegionComponent.class));
 		this.camera = camera;
 	}
 
 	@Override
-	protected void initialize () {
+	protected void initialize() {
 		batch = new SpriteBatch();
 	}
 
 	@Override
-	protected void begin () {
+	protected void begin() {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 	}
 
 	@Override
-	protected void process (Entity entity) {
+	protected void process(Entity entity) {
 		Spatial s = sm.get(entity);
-		SpriteComponent r = rm.get(entity);
-		r.sprite.setBounds(s.x, s.y, s.width, s.height);
-		r.sprite.setScale(s.scaleX, s.scaleY);
+		TextureRegionComponent r = rm.get(entity);
 
 		Movement m = mm.getSafe(entity);
-		float rotation = s.angle;
+		float rotation = 0;
 		if (m != null) rotation += getDirectionMultiplier(m) * 45;
-		r.sprite.setRotation(rotation);
-
-		r.sprite.draw(batch);
+		s.angle = rotation;
+		batch.draw(r.region, s.x, s.y, s.width / 2, s.height / 2, s.width, s.height, s.scaleX, s.scaleY, s.angle);
 	}
 
-	public int getDirectionMultiplier (Movement m) {
+	public int getDirectionMultiplier(Movement m) {
 		if (m.directionX == 1 && m.directionY == 0) return 0;
 		if (m.directionX == 1 && m.directionY == 1) return 1;
 		if (m.directionX == 0 && m.directionY == 1) return 2;
@@ -67,12 +66,12 @@ public class EntityRenderSystem extends EntityProcessingSystem implements Render
 	}
 
 	@Override
-	protected void end () {
+	protected void end() {
 		batch.end();
 	}
 
 	@Override
-	protected boolean checkProcessing () {
+	protected boolean checkProcessing() {
 		return true;
 	}
 

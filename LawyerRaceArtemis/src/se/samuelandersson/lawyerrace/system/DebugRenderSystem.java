@@ -1,7 +1,7 @@
 package se.samuelandersson.lawyerrace.system;
 
-import se.samuelandersson.lawyerrace.component.Spatial;
-import se.samuelandersson.lawyerrace.component.SpriteComponent;
+import se.samuelandersson.lawyerrace.component.Collision;
+import se.samuelandersson.lawyerrace.utils.GdxUtils;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -9,39 +9,41 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 
 public class DebugRenderSystem extends EntityProcessingSystem {
 
 	protected ShapeRenderer renderer;
 	protected OrthographicCamera camera;
-	
+
 	@Mapper
-	ComponentMapper<SpriteComponent> sm;
-	
-	public DebugRenderSystem (OrthographicCamera camera) {
-		super(Aspect.getAspectForAll(SpriteComponent.class, Spatial.class));
+	ComponentMapper<Collision> cm;
+
+	Vector2 v1 = new Vector2();
+	Vector2 v2 = new Vector2();
+
+	public DebugRenderSystem(OrthographicCamera camera) {
+		super(Aspect.getAspectForAll(Collision.class));
 		renderer = new ShapeRenderer();
 		this.camera = camera;
 	}
 
 	@Override
-	protected void begin () {
+	protected void begin() {
 		renderer.setProjectionMatrix(camera.combined);
-		renderer.begin(ShapeType.Rectangle);
+		renderer.begin(ShapeType.Line);
 	}
-	
+
 	@Override
-	protected void process (Entity e) {
-		SpriteComponent s = sm.get(e);
-		Sprite sprite = s.sprite;
-		renderer.rect(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
+	protected void process(Entity e) {
+		Collision c = cm.get(e);
+		GdxUtils.drawPolygon(renderer, c.polygon);
 	}
-	
+
 	@Override
-	protected void end () {
+	protected void end() {
 		renderer.end();
 	}
 

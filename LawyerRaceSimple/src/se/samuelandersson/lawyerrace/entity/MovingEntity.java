@@ -5,9 +5,8 @@ import se.samuelandersson.lawyerrace.Assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class MovingEntity extends Actor {
+public class MovingEntity extends Entity {
 
 	public static final int RIGHT = 0;
 	public static final int RIGHT_DOWN = 1;
@@ -31,6 +30,7 @@ public class MovingEntity extends Actor {
 	public MovingEntity(TextureRegion region) {
 		this.region = region;
 		setBounds(0, 0, region.getRegionWidth(), region.getRegionHeight());
+		setOrigin(getWidth() / 2, getHeight() / 2);
 		direction = 0;
 		speed = 150; // pixels per second
 	}
@@ -45,11 +45,13 @@ public class MovingEntity extends Actor {
 		if (getY() < 0) setY(0);
 		if (getX() + getWidth() > Gdx.graphics.getWidth()) setX(Gdx.graphics.getWidth() - getWidth());
 		if (getY() + getHeight() > Gdx.graphics.getHeight()) setY(Gdx.graphics.getHeight() - getHeight());
+		setRotation(45 * direction);
+		super.act(delta);
 	}
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
-		batch.draw(region, getX(), getY(), getWidth() / 2, getHeight() / 2, getWidth(), getHeight(), 1, 1, 45 * direction);
+		batch.draw(region, getX(), getY(), getWidth() / 2, getHeight() / 2, getWidth(), getHeight(), 1, 1, getRotation());
 	}
 
 }
