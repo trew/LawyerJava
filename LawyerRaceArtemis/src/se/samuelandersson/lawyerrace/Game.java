@@ -38,7 +38,7 @@ public abstract class Game implements ApplicationListener {
 			if (delta > MAX_FRAMETIME) delta = MAX_FRAMETIME;
 			accumulator += delta;
 			while (accumulator >= TIMESTEP) {
-				screen.update(delta);
+				screen.update(TIMESTEP);
 				accumulator -= TIMESTEP;
 			}
 			screen.render();
