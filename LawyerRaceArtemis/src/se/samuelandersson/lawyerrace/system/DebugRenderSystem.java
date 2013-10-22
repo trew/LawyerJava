@@ -11,7 +11,6 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
 
 public class DebugRenderSystem extends EntityProcessingSystem {
 
@@ -21,13 +20,10 @@ public class DebugRenderSystem extends EntityProcessingSystem {
 	@Mapper
 	ComponentMapper<CollisionComponent> cm;
 
-	Vector2 v1 = new Vector2();
-	Vector2 v2 = new Vector2();
-
 	public DebugRenderSystem(OrthographicCamera camera) {
 		super(Aspect.getAspectForAll(CollisionComponent.class));
-		renderer = new ShapeRenderer();
 		this.camera = camera;
+		renderer = new ShapeRenderer();
 	}
 
 	@Override
@@ -38,8 +34,8 @@ public class DebugRenderSystem extends EntityProcessingSystem {
 
 	@Override
 	protected void process(Entity e) {
-		CollisionComponent c = cm.get(e);
-		GdxUtils.drawPolygon(renderer, c.polygon);
+		CollisionComponent c = cm.getSafe(e);
+		if (c != null) GdxUtils.drawPolygon(renderer, c.polygon);
 	}
 
 	@Override

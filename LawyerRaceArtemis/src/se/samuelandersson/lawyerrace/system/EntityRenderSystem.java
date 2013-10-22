@@ -1,5 +1,6 @@
 package se.samuelandersson.lawyerrace.system;
 
+import se.samuelandersson.lawyerrace.CoreRegistry;
 import se.samuelandersson.lawyerrace.component.MovementComponent;
 import se.samuelandersson.lawyerrace.component.SpatialComponent;
 import se.samuelandersson.lawyerrace.component.TextureRegionComponent;
@@ -31,7 +32,7 @@ public class EntityRenderSystem extends EntityProcessingSystem {
 
 	@Override
 	protected void initialize() {
-		batch = new SpriteBatch();
+		batch = CoreRegistry.get(SpriteBatch.class);
 	}
 
 	@Override

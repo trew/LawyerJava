@@ -108,12 +108,10 @@ public class CollisionSystem extends VoidEntitySystem {
 		groups.add(new CollisionGroup(Group.PLAYER, Group.DOLLAR, new CollisionHandler() {
 			@Override
 			public void handleCollision(Entity a, Entity b) {
-				RewardComponent r = rm.getSafe(b);
-				if (r == null) return;
+				RewardComponent r = rm.get(b);
 				PlayerComponent p = pm.get(a);
 				p.score += r.points;
-				world.getManager(GroupManager.class).remove(b, Group.DOLLAR);
-				b.removeComponent(r).changedInWorld();
+				b.removeComponent(CollisionComponent.class).changedInWorld();
 
 				SequenceAction seq = Actions.sequence();
 				seq.addAction(Actions.scaleTo(1.2f, 1.2f, 0.1f)).addAction(Actions.scaleTo(0, 0, 0.1f)).addAction(Actions.remove());
