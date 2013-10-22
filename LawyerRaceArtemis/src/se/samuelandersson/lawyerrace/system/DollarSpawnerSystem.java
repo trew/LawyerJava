@@ -1,6 +1,6 @@
 package se.samuelandersson.lawyerrace.system;
 
-import se.samuelandersson.lawyerrace.component.Reward;
+import se.samuelandersson.lawyerrace.component.RewardComponent;
 import se.samuelandersson.lawyerrace.entity.EntityFactory;
 
 import com.artemis.Aspect;
@@ -11,7 +11,7 @@ import com.artemis.utils.ImmutableBag;
 public class DollarSpawnerSystem extends EntitySystem {
 
 	public DollarSpawnerSystem() {
-		super(Aspect.getAspectForAll(Reward.class));
+		super(Aspect.getAspectForAll(RewardComponent.class));
 	}
 
 	@Override

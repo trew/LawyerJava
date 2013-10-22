@@ -1,8 +1,8 @@
 package se.samuelandersson.lawyerrace.system;
 
-import se.samuelandersson.lawyerrace.component.Enemy;
-import se.samuelandersson.lawyerrace.component.Movement;
-import se.samuelandersson.lawyerrace.component.Spatial;
+import se.samuelandersson.lawyerrace.component.EnemyComponent;
+import se.samuelandersson.lawyerrace.component.MovementComponent;
+import se.samuelandersson.lawyerrace.component.SpatialComponent;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -14,12 +14,12 @@ import com.badlogic.gdx.Gdx;
 public class MovementSystem extends EntityProcessingSystem {
 
 	@Mapper
-	ComponentMapper<Spatial> sm;
+	ComponentMapper<SpatialComponent> sm;
 	@Mapper
-	ComponentMapper<Movement> mm;
+	ComponentMapper<MovementComponent> mm;
 
 	public MovementSystem() {
-		super(Aspect.getAspectForAll(Spatial.class, Movement.class).exclude(Enemy.class));
+		super(Aspect.getAspectForAll(SpatialComponent.class, MovementComponent.class).exclude(EnemyComponent.class));
 	}
 
 	@Override
@@ -31,13 +31,13 @@ public class MovementSystem extends EntityProcessingSystem {
 	protected void process(Entity e) {
 		float delta = world.getDelta();
 
-		Spatial spatial = sm.get(e);
-		Movement movement = mm.get(e);
+		SpatialComponent spatial = sm.get(e);
+		MovementComponent movement = mm.get(e);
 		if (!movement.moving) return;
-		
+
 		spatial.x += movement.velocityX * movement.directionX * delta;
 		spatial.y += movement.velocityY * movement.directionY * delta;
-		
+
 		float maxX = Gdx.graphics.getWidth() - spatial.width;
 		float maxY = Gdx.graphics.getHeight() - spatial.height;
 		float minX = 0;
@@ -47,5 +47,5 @@ public class MovementSystem extends EntityProcessingSystem {
 		if (spatial.x < minX) spatial.x = minX;
 		if (spatial.y < minX) spatial.y = minY;
 	}
-	
+
 }

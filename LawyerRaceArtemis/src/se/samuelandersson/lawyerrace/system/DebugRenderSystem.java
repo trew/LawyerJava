@@ -1,6 +1,6 @@
 package se.samuelandersson.lawyerrace.system;
 
-import se.samuelandersson.lawyerrace.component.Collision;
+import se.samuelandersson.lawyerrace.component.CollisionComponent;
 import se.samuelandersson.lawyerrace.utils.GdxUtils;
 
 import com.artemis.Aspect;
@@ -19,13 +19,13 @@ public class DebugRenderSystem extends EntityProcessingSystem {
 	protected OrthographicCamera camera;
 
 	@Mapper
-	ComponentMapper<Collision> cm;
+	ComponentMapper<CollisionComponent> cm;
 
 	Vector2 v1 = new Vector2();
 	Vector2 v2 = new Vector2();
 
 	public DebugRenderSystem(OrthographicCamera camera) {
-		super(Aspect.getAspectForAll(Collision.class));
+		super(Aspect.getAspectForAll(CollisionComponent.class));
 		renderer = new ShapeRenderer();
 		this.camera = camera;
 	}
@@ -38,7 +38,7 @@ public class DebugRenderSystem extends EntityProcessingSystem {
 
 	@Override
 	protected void process(Entity e) {
-		Collision c = cm.get(e);
+		CollisionComponent c = cm.get(e);
 		GdxUtils.drawPolygon(renderer, c.polygon);
 	}
 

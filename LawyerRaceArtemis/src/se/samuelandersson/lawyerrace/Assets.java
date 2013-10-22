@@ -28,7 +28,7 @@ public class Assets {
 		}
 		return new TextureRegion(region);
 	}
-	
+
 	public static TextureAtlas getAtlas() {
 		return manager.get("images/atlas/pages.atlas", TextureAtlas.class);
 	}

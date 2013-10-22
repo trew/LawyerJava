@@ -47,7 +47,7 @@ public class GameScreen implements Screen {
 		updateSystems.add(world.setSystem(new CollisionSystem(), true));
 		updateSystems.add(world.setSystem(new DollarSpawnerSystem(), true));
 		updateSystems.add(world.setSystem(new EnemySpawnerSystem(), true));
-		
+
 		renderSystems.add(world.setSystem(new EntityRenderSystem(camera), true));
 		if (LawyerRace.DEBUG) renderSystems.add(world.setSystem(new DebugRenderSystem(camera), true));
 		renderSystems.add(world.setSystem(new UIRenderSystem(), true));

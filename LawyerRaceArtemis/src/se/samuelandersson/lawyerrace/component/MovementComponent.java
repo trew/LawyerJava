@@ -2,43 +2,43 @@ package se.samuelandersson.lawyerrace.component;
 
 import com.artemis.Component;
 
-public class Movement extends Component {
+public class MovementComponent extends Component {
 
 	public float velocityX;
 	public float velocityY;
 	public int directionX;
 	public int directionY;
 	public boolean moving = true;
-	
-	public Movement() {
+
+	public MovementComponent() {
 	}
-	
-	public Movement(float velocity) {
+
+	public MovementComponent(float velocity) {
 		velocity(velocity);
 	}
-	
-	public Movement velocity(float velocity) {
+
+	public MovementComponent velocity(float velocity) {
 		velocityX = velocity;
 		velocityY = velocity;
 		return this;
 	}
-	
-	public Movement directionX(int directionX) {
+
+	public MovementComponent directionX(int directionX) {
 		this.directionX = directionX;
 		return this;
 	}
-	
-	public Movement directionY(int directionY) {
+
+	public MovementComponent directionY(int directionY) {
 		this.directionY = directionY;
 		return this;
 	}
-	
-	public Movement velocityX(float velocityX) {
+
+	public MovementComponent velocityX(float velocityX) {
 		this.velocityX = velocityX;
 		return this;
 	}
 
-	public Movement velocityY(float velocityY) {
+	public MovementComponent velocityY(float velocityY) {
 		this.velocityY = velocityY;
 		return this;
 	}

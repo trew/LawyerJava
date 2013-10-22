@@ -5,10 +5,10 @@ import se.samuelandersson.lawyerrace.LawyerRace;
 import se.samuelandersson.lawyerrace.actions.Actions;
 import se.samuelandersson.lawyerrace.actions.SequenceAction;
 import se.samuelandersson.lawyerrace.component.ActionComponent;
-import se.samuelandersson.lawyerrace.component.Collision;
-import se.samuelandersson.lawyerrace.component.Player;
-import se.samuelandersson.lawyerrace.component.Reward;
-import se.samuelandersson.lawyerrace.component.Spatial;
+import se.samuelandersson.lawyerrace.component.CollisionComponent;
+import se.samuelandersson.lawyerrace.component.PlayerComponent;
+import se.samuelandersson.lawyerrace.component.RewardComponent;
+import se.samuelandersson.lawyerrace.component.SpatialComponent;
 import se.samuelandersson.lawyerrace.entity.Group;
 import se.samuelandersson.lawyerrace.screen.GameOverScreen;
 
@@ -33,17 +33,17 @@ public class CollisionSystem extends VoidEntitySystem {
 			this.groupB = gm.getEntities(groupB);
 			this.handler = handler;
 		}
-		
+
 		public void updateCollisionBoundaries() {
 			updateGroupBoundaries(groupA);
 			updateGroupBoundaries(groupB);
 		}
-		
+
 		private void updateGroupBoundaries(ImmutableBag<Entity> group) {
 			for (int i = 0; i < group.size(); i++) {
 				Entity e = group.get(i);
-				Collision c = cm.getSafe(e);
-				Spatial s = sm.getSafe(e);
+				CollisionComponent c = cm.getSafe(e);
+				SpatialComponent s = sm.getSafe(e);
 				if (c != null && s != null) {
 					c.polygon.setPosition(s.x, s.y);
 					c.polygon.setRotation(s.angle);
@@ -55,12 +55,12 @@ public class CollisionSystem extends VoidEntitySystem {
 		public void checkCollisions() {
 			for (int i = 0; i < groupA.size(); i++) {
 				Entity a = groupA.get(i);
-				Collision ac = cm.getSafe(a);
+				CollisionComponent ac = cm.getSafe(a);
 				if (ac == null) continue;
 
 				for (int j = 0; j < groupB.size(); j++) {
 					Entity b = groupB.get(j);
-					Collision bc = cm.getSafe(b);
+					CollisionComponent bc = cm.getSafe(b);
 					if (bc == null) continue;
 
 					if (ac.overlaps(bc)) handler.handleCollision(a, b);
@@ -74,13 +74,13 @@ public class CollisionSystem extends VoidEntitySystem {
 	}
 
 	@Mapper
-	ComponentMapper<Collision> cm;
+	ComponentMapper<CollisionComponent> cm;
 	@Mapper
-	ComponentMapper<Spatial> sm;
+	ComponentMapper<SpatialComponent> sm;
 	@Mapper
-	ComponentMapper<Player> pm;
+	ComponentMapper<PlayerComponent> pm;
 	@Mapper
-	ComponentMapper<Reward> rm;
+	ComponentMapper<RewardComponent> rm;
 	@Mapper
 	ComponentMapper<ActionComponent> am;
 
@@ -104,9 +104,9 @@ public class CollisionSystem extends VoidEntitySystem {
 		groups.add(new CollisionGroup(Group.PLAYER, Group.DOLLAR, new CollisionHandler() {
 			@Override
 			public void handleCollision(Entity a, Entity b) {
-				Reward r = rm.getSafe(b);
+				RewardComponent r = rm.getSafe(b);
 				if (r == null) return;
-				Player p = pm.get(a);
+				PlayerComponent p = pm.get(a);
 				p.score += r.points;
 				world.getManager(GroupManager.class).remove(b, Group.DOLLAR);
 				b.removeComponent(r).changedInWorld();

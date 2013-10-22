@@ -1,7 +1,7 @@
 package se.samuelandersson.lawyerrace.system;
 
-import se.samuelandersson.lawyerrace.component.Movement;
-import se.samuelandersson.lawyerrace.component.Player;
+import se.samuelandersson.lawyerrace.component.MovementComponent;
+import se.samuelandersson.lawyerrace.component.PlayerComponent;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -14,12 +14,12 @@ import com.badlogic.gdx.Input.Keys;
 public class PlayerInputSystem extends EntityProcessingSystem implements InputProcessor {
 
 	@Mapper
-	ComponentMapper<Movement> tm;
+	ComponentMapper<MovementComponent> tm;
 
-	private Movement movement;
+	private MovementComponent movement;
 
 	public PlayerInputSystem() {
-		super(Aspect.getAspectForAll(Player.class, Movement.class));
+		super(Aspect.getAspectForAll(PlayerComponent.class, MovementComponent.class));
 	}
 
 	@Override

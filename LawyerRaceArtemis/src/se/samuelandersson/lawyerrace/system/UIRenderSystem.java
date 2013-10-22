@@ -1,7 +1,7 @@
 package se.samuelandersson.lawyerrace.system;
 
 import se.samuelandersson.lawyerrace.Assets;
-import se.samuelandersson.lawyerrace.component.Player;
+import se.samuelandersson.lawyerrace.component.PlayerComponent;
 import se.samuelandersson.lawyerrace.utils.GdxUtils;
 
 import com.artemis.Aspect;
@@ -16,36 +16,36 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class UIRenderSystem extends EntityProcessingSystem implements RenderSystem {
 
 	@Mapper
-	ComponentMapper<Player> pm;
-	
+	ComponentMapper<PlayerComponent> pm;
+
 	private SpriteBatch batch;
 	private BitmapFont font;
-	
+
 	public UIRenderSystem() {
-	   super(Aspect.getAspectForAll(Player.class));
-	   batch = new SpriteBatch();
-	   font = Assets.getFont();
-   }
-	
+		super(Aspect.getAspectForAll(PlayerComponent.class));
+		batch = new SpriteBatch();
+		font = Assets.getFont();
+	}
+
 	@Override
 	protected void begin() {
 		batch.begin();
 	}
-	
+
 	@Override
 	protected void end() {
 		batch.end();
 	}
 
 	@Override
-   protected boolean checkProcessing() {
-	   return true;
-   }
+	protected boolean checkProcessing() {
+		return true;
+	}
 
 	@Override
-   protected void process(Entity e) {
-		Player p = pm.get(e);
+	protected void process(Entity e) {
+		PlayerComponent p = pm.get(e);
 		GdxUtils.drawCenteredAt(batch, font, Integer.toString(p.score), Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 10);
-   }
+	}
 
 }

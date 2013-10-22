@@ -1,10 +1,9 @@
-
 package se.samuelandersson.lawyerrace.actions;
 
 import com.artemis.ComponentType;
 import com.badlogic.gdx.math.Interpolation;
 
-import se.samuelandersson.lawyerrace.component.Spatial;
+import se.samuelandersson.lawyerrace.component.SpatialComponent;
 
 public class ScaleToAction extends BaseAction {
 
@@ -17,29 +16,29 @@ public class ScaleToAction extends BaseAction {
 	protected float time;
 	protected boolean completed = false;
 	protected Interpolation interpolation;
-	
-	protected ComponentType spatialType;
-	protected Spatial spatial;
 
-	ScaleToAction (float scaleX, float scaleY, float duration, Interpolation interpolation) {
-		spatialType = ComponentType.getTypeFor(Spatial.class);
+	protected ComponentType spatialType;
+	protected SpatialComponent spatial;
+
+	ScaleToAction(float scaleX, float scaleY, float duration, Interpolation interpolation) {
+		spatialType = ComponentType.getTypeFor(SpatialComponent.class);
 		endX = scaleX;
 		endY = scaleY;
 		this.duration = duration;
 		this.interpolation = interpolation;
 	}
 
-	private void setup(Spatial s) {
+	private void setup(SpatialComponent s) {
 		startX = s.scaleX;
 		startY = s.scaleY;
 	}
 
 	@Override
-	public boolean update (float delta) {
-		Spatial s = (Spatial)entity.getComponent(spatialType);
+	public boolean update(float delta) {
+		SpatialComponent s = (SpatialComponent) entity.getComponent(spatialType);
 		if (s == null) return true;
 		if (time == 0) setup(s);
-		
+
 		time += delta;
 		float percent;
 		completed = time >= duration;

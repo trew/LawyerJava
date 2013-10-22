@@ -1,8 +1,8 @@
 package se.samuelandersson.lawyerrace.system;
 
-import se.samuelandersson.lawyerrace.component.Enemy;
-import se.samuelandersson.lawyerrace.component.Movement;
-import se.samuelandersson.lawyerrace.component.Spatial;
+import se.samuelandersson.lawyerrace.component.EnemyComponent;
+import se.samuelandersson.lawyerrace.component.MovementComponent;
+import se.samuelandersson.lawyerrace.component.SpatialComponent;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -14,16 +14,16 @@ import com.artemis.systems.EntityProcessingSystem;
 public class EnemyMovementSystem extends EntityProcessingSystem {
 
 	@Mapper
-	ComponentMapper<Spatial> sm;
+	ComponentMapper<SpatialComponent> sm;
 	@Mapper
-	ComponentMapper<Movement> mm;
+	ComponentMapper<MovementComponent> mm;
 
 	protected static final float DIAGONAL_MULTIPLIER = 0.7071068f;
 
 	private Entity target;
 
 	public EnemyMovementSystem() {
-		super(Aspect.getAspectForAll(Enemy.class, Spatial.class, Movement.class));
+		super(Aspect.getAspectForAll(EnemyComponent.class, SpatialComponent.class, MovementComponent.class));
 	}
 
 	@Override
@@ -33,15 +33,15 @@ public class EnemyMovementSystem extends EntityProcessingSystem {
 
 	@Override
 	protected void process(Entity e) {
-		Movement targetMovement = mm.get(target);
+		MovementComponent targetMovement = mm.get(target);
 		if (!targetMovement.moving) return;
-		
-		Spatial targetSpatial = sm.get(target);
+
+		SpatialComponent targetSpatial = sm.get(target);
 
 		float delta = world.getDelta();
 
-		Spatial spatial = sm.get(e);
-		Movement movement = mm.get(e);
+		SpatialComponent spatial = sm.get(e);
+		MovementComponent movement = mm.get(e);
 
 		float targetX = targetSpatial.x;
 		float targetY = targetSpatial.y;

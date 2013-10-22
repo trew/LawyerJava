@@ -1,12 +1,12 @@
 package se.samuelandersson.lawyerrace.entity;
 
 import se.samuelandersson.lawyerrace.component.ActionComponent;
-import se.samuelandersson.lawyerrace.component.Collision;
-import se.samuelandersson.lawyerrace.component.Enemy;
-import se.samuelandersson.lawyerrace.component.Movement;
-import se.samuelandersson.lawyerrace.component.Player;
-import se.samuelandersson.lawyerrace.component.Reward;
-import se.samuelandersson.lawyerrace.component.Spatial;
+import se.samuelandersson.lawyerrace.component.CollisionComponent;
+import se.samuelandersson.lawyerrace.component.EnemyComponent;
+import se.samuelandersson.lawyerrace.component.MovementComponent;
+import se.samuelandersson.lawyerrace.component.PlayerComponent;
+import se.samuelandersson.lawyerrace.component.RewardComponent;
+import se.samuelandersson.lawyerrace.component.SpatialComponent;
 import se.samuelandersson.lawyerrace.component.TextureRegionComponent;
 
 import com.artemis.Entity;
@@ -19,30 +19,22 @@ import com.badlogic.gdx.math.Polygon;
 
 public final class EntityFactory {
 
-	private static GroupManager getGroupManager(World world) {
-		return world.getManager(GroupManager.class);
-	}
-
 	public static Entity createPlayer(World world) {
 		Entity e = world.createEntity();
 
 		TextureRegionComponent r = new TextureRegionComponent("entities/player");
 		float width = r.region.getRegionWidth();
 		float height = r.region.getRegionHeight();
-		Spatial s = new Spatial(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, width, height);
-		Movement m = new Movement(200);
-		m.directionX = 1;
-		Player p = new Player();
 
-		getGroupManager(world).add(e, Group.PLAYER);
+		world.getManager(GroupManager.class).add(e, Group.PLAYER);
 		world.getManager(TagManager.class).register("PLAYER", e);
 
 		Polygon pol = new Polygon(new float[] { 0, 0, width, height / 2, 0, height });
-		e.addComponent(new Collision(pol));
-		e.addComponent(p);
-		e.addComponent(s);
 		e.addComponent(r);
-		e.addComponent(m);
+		e.addComponent(new SpatialComponent(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, width, height));
+		e.addComponent(new CollisionComponent(pol));
+		e.addComponent(new MovementComponent(200));
+		e.addComponent(new PlayerComponent());
 		return e;
 	}
 
@@ -52,17 +44,17 @@ public final class EntityFactory {
 		TextureRegionComponent r = new TextureRegionComponent("entities/enemy");
 		float width = r.region.getRegionWidth();
 		float height = r.region.getRegionHeight();
-		Spatial s = new Spatial(0, 0, width, height);
-		Movement m = new Movement(150);
 
-		getGroupManager(world).add(e, Group.ENEMY);
+		world.getManager(GroupManager.class).add(e, Group.ENEMY);
 
+		// a triangle polygon for collision
 		Polygon pol = new Polygon(new float[] { 0, 0, width, height / 2, 0, height });
-		e.addComponent(new Collision(pol));
-		e.addComponent(s);
+		
 		e.addComponent(r);
-		e.addComponent(m);
-		e.addComponent(new Enemy());
+		e.addComponent(new SpatialComponent(0, 0, width, height));
+		e.addComponent(new CollisionComponent(pol));
+		e.addComponent(new MovementComponent(150));
+		e.addComponent(new EnemyComponent());
 		return e;
 	}
 
@@ -75,17 +67,14 @@ public final class EntityFactory {
 		float height = r.region.getRegionHeight();
 		float x = MathUtils.random(0, Gdx.graphics.getWidth() - width);
 		float y = MathUtils.random(0, Gdx.graphics.getHeight() - height);
-		Spatial s = new Spatial(x, y, width, height);
-		Reward rw = new Reward(1);
 
-		getGroupManager(world).add(e, Group.DOLLAR);
+		world.getManager(GroupManager.class).add(e, Group.DOLLAR);
 
-		Polygon pol = new Polygon(new float[] { 0, 0, width, 0, width, height, 0, height });
-		e.addComponent(new Collision(pol));
-		e.addComponent(new ActionComponent());
-		e.addComponent(rw);
 		e.addComponent(r);
-		e.addComponent(s);
+		e.addComponent(new SpatialComponent(x, y, width, height));
+		e.addComponent(new CollisionComponent(0, 0, width, height));
+		e.addComponent(new ActionComponent());
+		e.addComponent(new RewardComponent(1));
 		return e;
 	}
 }

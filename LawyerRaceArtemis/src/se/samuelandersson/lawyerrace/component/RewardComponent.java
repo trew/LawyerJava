@@ -2,14 +2,14 @@ package se.samuelandersson.lawyerrace.component;
 
 import com.artemis.Component;
 
-public class Reward extends Component {
+public class RewardComponent extends Component {
 	public int points;
 	public boolean active = true;
 
-	public Reward() {
+	public RewardComponent() {
 	}
 
-	public Reward(int points) {
+	public RewardComponent(int points) {
 		this.points = points;
 	}
 

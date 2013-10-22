@@ -14,13 +14,13 @@ public class ActionsSystem extends EntityProcessingSystem {
 
 	@Mapper
 	ComponentMapper<ActionComponent> am;
-	
-	public ActionsSystem () {
+
+	public ActionsSystem() {
 		super(Aspect.getAspectForAll(ActionComponent.class));
 	}
-	
+
 	@Override
-	protected void process (Entity e) {
+	protected void process(Entity e) {
 		ActionComponent actionComponent = am.get(e);
 		float delta = world.getDelta();
 		Array<BaseAction> entityActions = actionComponent.actions;
@@ -34,4 +34,3 @@ public class ActionsSystem extends EntityProcessingSystem {
 		}
 	}
 }
- 
