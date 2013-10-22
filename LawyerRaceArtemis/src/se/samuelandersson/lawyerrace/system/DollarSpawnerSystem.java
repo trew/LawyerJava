@@ -1,30 +1,28 @@
 package se.samuelandersson.lawyerrace.system;
 
-import se.samuelandersson.lawyerrace.component.RewardComponent;
 import se.samuelandersson.lawyerrace.entity.EntityFactory;
+import se.samuelandersson.lawyerrace.entity.Group;
 
-import com.artemis.Aspect;
 import com.artemis.Entity;
-import com.artemis.EntitySystem;
+import com.artemis.managers.GroupManager;
+import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.ImmutableBag;
 
-public class DollarSpawnerSystem extends EntitySystem {
+public class DollarSpawnerSystem extends VoidEntitySystem {
 
-	public DollarSpawnerSystem() {
-		super(Aspect.getAspectForAll(RewardComponent.class));
-	}
+	private ImmutableBag<Entity> dollars;
 
 	@Override
-	protected void processEntities(ImmutableBag<Entity> entities) {
-		int dollarsToSpawn = 1 - entities.size();
+	protected void initialize() {
+		dollars = world.getManager(GroupManager.class).getEntities(Group.DOLLAR);
+	}
+	
+	@Override
+   protected void processSystem() {
+		int dollarsToSpawn = 1 - dollars.size();
 		for (int i = 0; i < dollarsToSpawn; i++) {
 			EntityFactory.createDollar(world).addToWorld();
 		}
-	}
-
-	@Override
-	protected boolean checkProcessing() {
-		return true;
-	}
+   }
 
 }

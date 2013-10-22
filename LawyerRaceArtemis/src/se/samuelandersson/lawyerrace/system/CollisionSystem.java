@@ -111,6 +111,10 @@ public class CollisionSystem extends VoidEntitySystem {
 				RewardComponent r = rm.get(b);
 				PlayerComponent p = pm.get(a);
 				p.score += r.points;
+				
+				// this is needed so we can spawn a new dollar instantly
+				world.getManager(GroupManager.class).remove(b, Group.DOLLAR);
+				
 				b.removeComponent(CollisionComponent.class).changedInWorld();
 
 				SequenceAction seq = Actions.sequence();
