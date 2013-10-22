@@ -63,8 +63,8 @@ public class Enemy extends MovingEntity {
 		if (horizontal == -1 && vertical == 1) direction = LEFT_DOWN;
 		if (horizontal == -1 && vertical == 0) direction = LEFT;
 		if (horizontal == -1 && vertical == -1) direction = LEFT_UP;
-		if (horizontal == 0 && vertical == 1) direction = UP;
-		if (horizontal == 0 && vertical == -1) direction = DOWN;
+		if (horizontal == 0 && vertical == -1) direction = UP;
+		if (horizontal == 0 && vertical == 1) direction = DOWN;
 	}
 
 	public Enemy setTarget(Player player) {

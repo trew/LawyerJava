@@ -10,11 +10,11 @@ public class MovingEntity extends Entity {
 
 	public static final int RIGHT = 0;
 	public static final int RIGHT_DOWN = 1;
-	public static final int UP = 2;
+	public static final int DOWN = 2;
 	public static final int LEFT_DOWN = 3;
 	public static final int LEFT = 4;
 	public static final int LEFT_UP = 5;
-	public static final int DOWN = 6;
+	public static final int UP = 6;
 	public static final int RIGHT_UP = 7;
 
 	/* d / sqrt( 2*( d*d ) ) */
@@ -26,15 +26,16 @@ public class MovingEntity extends Entity {
 	protected int horizontal;
 	protected int direction;
 	protected float speed;
-	
+
 	public MovingEntity(TextureRegion region) {
 		this.region = region;
+		if (!region.isFlipY()) region.flip(false, true);
 		setBounds(0, 0, region.getRegionWidth(), region.getRegionHeight());
 		setOrigin(getWidth() / 2, getHeight() / 2);
 		direction = 0;
 		speed = 150; // pixels per second
 	}
-	
+
 	public MovingEntity(String name) {
 		this(Assets.getAtlas().findRegion(name));
 	}
@@ -55,4 +56,3 @@ public class MovingEntity extends Entity {
 	}
 
 }
-

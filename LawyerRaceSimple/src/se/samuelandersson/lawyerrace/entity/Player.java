@@ -25,10 +25,10 @@ public class Player extends MovingEntity {
 			if (direction == RIGHT)
 				setX(getX() + speed * delta);
 			else if (direction == UP)
-				setY(getY() + speed * delta);
+				setY(getY() - speed * delta);
 			else if (direction == LEFT)
 				setX(getX() - speed * delta);
-			else if (direction == DOWN) setY(getY() - speed * delta);
+			else if (direction == DOWN) setY(getY() + speed * delta);
 		}
 
 		super.act(delta);

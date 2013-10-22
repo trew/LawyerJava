@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
 		enemies = new Array<Enemy>();
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false);
+		camera.setToOrtho(true);
 		stage = new Stage();
 		stage.setCamera(camera);
 		player = new Player();
@@ -133,31 +133,23 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		camera.setToOrtho(false, width, height);
+		camera.setToOrtho(true, width, height);
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

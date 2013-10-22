@@ -12,6 +12,7 @@ public class Dollar extends Entity {
 
 	public Dollar() {
 		region = Assets.getAtlas().findRegion("entities/dollar");
+		if (!region.isFlipY()) region.flip(false, true);
 		setBounds(0, 0, region.getRegionWidth(), region.getRegionHeight());
 		setOrigin(getWidth() / 2, getHeight() / 2);
 		active = true;
