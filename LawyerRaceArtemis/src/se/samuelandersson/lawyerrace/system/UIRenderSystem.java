@@ -13,7 +13,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class UIRenderSystem extends EntityProcessingSystem implements RenderSystem {
+public class UIRenderSystem extends EntityProcessingSystem {
 
 	@Mapper
 	ComponentMapper<PlayerComponent> pm;

@@ -12,7 +12,7 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class EntityRenderSystem extends EntityProcessingSystem implements RenderSystem {
+public class EntityRenderSystem extends EntityProcessingSystem {
 
 	@Mapper
 	ComponentMapper<SpatialComponent> sm;

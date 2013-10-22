@@ -34,6 +34,10 @@ public class CollisionSystem extends VoidEntitySystem {
 			this.handler = handler;
 		}
 
+		/**
+		 * Syncs the {@link CollisionComponent} with the {@link SpatialComponent} for all entities in this collision group. Syncing
+		 * includes position, rotation and scale.
+		 */
 		public void updateCollisionBoundaries() {
 			updateGroupBoundaries(groupA);
 			updateGroupBoundaries(groupB);
